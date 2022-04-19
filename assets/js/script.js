@@ -36,7 +36,11 @@ var getPlayerID = function (player) {
         if(response.ok) {
             response.json().then(function(data){
                 console.log(data)
+<<<<<<< HEAD
                 if(data.data.length > 0) {
+=======
+        
+>>>>>>> 8aaedf77f48ccbe88a3b9246d5c58bcc96eb946f
                     playerFirstName = data.data[0].first_name
                     playerLastName = data.data[0].last_name
                     playerNameEl.innerHTML = playerFirstName + " " + playerLastName
@@ -49,11 +53,7 @@ var getPlayerID = function (player) {
                     teamEl.innerHTML= "TEAM: " + team
                     
                     getPlayerDraftYear(playerLastName, playerFirstName)
-                }
-                else {
-                    // PUT MODAL HERE
-                    modalEl.classList.add("is-active")
-                }
+                
             })
         }
         
