@@ -5,6 +5,10 @@ const jerseyEl = document.querySelector("#jersey")
 const teamEl = document.querySelector("#team")
 const anchorEl = document.querySelector(".stats")
 const playerNameEl = document.querySelector("#player-name")
+const sectionContainerEl = document.querySelector(".section-container")
+const modalEl = document.querySelector(".modal")
+const modalContainerEl = document.querySelector(".modal-container")
+let modalCloseEl = document.querySelector(".modal-close")
 
 
        
@@ -27,24 +31,35 @@ playerSearchBtn.addEventListener("click", function(){
 
 
 var getPlayerID = function (player) {
-    fetch(`https://www.balldontlie.io/api/v1/players?search=${player}`).then(function(response){
-        response.json().then(function(data){
-            console.log(data)
-            playerFirstName = data.data[0].first_name
-            playerLastName = data.data[0].last_name
-            playerNameEl.innerHTML = playerFirstName + " " + playerLastName
-            console.log(playerLastName)
-            console.log(playerFirstName)
-            // playerID = data.data[0].id 
-            // console.log(playerID)
-            team = data.data[0].team.full_name
-            console.log(team)
-            teamEl.innerHTML= "TEAM: " + team
-            
-            getPlayerDraftYear(playerLastName, playerFirstName)
-        })
+    fetch(`https://www.balldontlie.io/api/v1/players?search=${player}`).then(function(response) {
+        // debugger;
+        if(response.ok) {
+            response.json().then(function(data){
+                console.log(data)
+                if(data.length > 0) {
+                    playerFirstName = data.data[0].first_name
+                    playerLastName = data.data[0].last_name
+                    playerNameEl.innerHTML = playerFirstName + " " + playerLastName
+                    console.log(playerLastName)
+                    console.log(playerFirstName)
+                    // playerID = data.data[0].id 
+                    // console.log(playerID)
+                    team = data.data[0].team.full_name
+                    console.log(team)
+                    teamEl.innerHTML= "TEAM: " + team
+                    
+                    getPlayerDraftYear(playerLastName, playerFirstName)
+                }
+                else {
+                    // PUT MODAL HERE
+                    modalEl.classList.add("is-active")
+                }
+            })
+        }
+        
     })
-    }
+    
+}
     
 
 var getPlayerDraftYear = function(player, firstname) {
@@ -59,6 +74,9 @@ fetch(`https://api-nba-v1.p.rapidapi.com/players?name=${player}`, options)
                     console.log(playerJerseyNumber)
                     jerseyEl.innerHTML= "JERSEY #: " + playerJerseyNumber
                     draftYearEl.innerHTML = "DRAFT YEAR: " + playerDraftYear
+
+                    // Run YouTube function
+                    fetchTheApi(playerDraftYear)
 
                 }
             }
@@ -77,4 +95,46 @@ fetch(`https://api-nba-v1.p.rapidapi.com/players?name=${player}`, options)
 // getPlayerDraftYear()
 
 
-        
+// YouTube API begin
+
+const videoIframe = document.querySelector(".video-iframe")
+const youtubeVideoTitle = document.querySelector("#song")
+const videoContainer = document.querySelector(".video-container")
+
+
+
+let fetchTheApi = function(userYear) {
+    let apiUrl = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=most popular songs of' + userYear + '&key=AIzaSyDlhGHiQ4BazcwFF_5FyT8TAp5fA9t78RE'
+
+    fetch(apiUrl).then(function(response) {
+        if(response.ok) {
+            response.json().then(function(data) {
+                console.log(data)
+                // Run the YouTube embed function with the data as an argument
+                createYouTubeContent(data)
+            })
+        }
+    })
+}
+
+let createYouTubeContent = function(yaya) {
+    sectionContainerEl.classList.remove("hidden")
+
+    for (let i = 0; i < yaya.items.length; i++) {
+        // Create title for the container
+        youtubeVideoTitle.innerHTML = yaya.items[i].snippet.title
+        // Append Title to container
+        videoContainer.appendChild(youtubeVideoTitle)
+
+        // Give the iframe a correct link
+        videoIframe.setAttribute("src", 'https://www.youtube.com/embed/' + yaya.items[i].id.videoId)
+        // Append iframe to the container
+        videoContainer.appendChild(videoIframe)
+    }
+}
+
+
+
+modalCloseEl.addEventListener("click", function() {
+    modalEl.classList.remove("is-active")
+})
