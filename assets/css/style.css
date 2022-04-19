@@ -4,10 +4,22 @@
     padding: 0;
 }
 
-/* .hidden{
+.hidden{
     display: none; 
-} */
+}
 
 body {
     min-height: 100vh;
   }
+
+  .video-container {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+  }
+
+.alert-title {
+    color: white;
+    font-size: 7rem;
+    text-align: center;
+}
