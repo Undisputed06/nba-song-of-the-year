@@ -36,7 +36,7 @@ var getPlayerID = function (player) {
         if(response.ok) {
             response.json().then(function(data){
                 console.log(data)
-                if(data.length > 0) {
+                if(data.data.length > 0) {
                     playerFirstName = data.data[0].first_name
                     playerLastName = data.data[0].last_name
                     playerNameEl.innerHTML = playerFirstName + " " + playerLastName
