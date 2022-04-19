@@ -14,9 +14,26 @@
         <div>
             <h1 class="title is-1">Enter an NBA player's name</h1>
             <input id="player-input" type="text" placeholder="i.e. Kevin Durant" class="input is-medium"> 
-            <button id="submit-button" class="button is-link is-medium">Submit</button>
+            <a class="stats"><button id="submit-button" class="button is-link is-medium">Submit</button></a>
         </div>
     </section>
+    <section class="columns hidden">
+        <div class="is-flex is-justify-content-center has-background-link column">
+            <div class="has-text-light">
+                <h2 id="player-name" class="title is-2"></h2>
+                <ul>
+                    <li id="draft-year"></li>
+                    <li id="jersey"></li>
+                    <li id="team"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="is-flex is-justify-content-center has-background-danger column">
+            <h2 id="song" class="title is-2">Top Songs of </h2>
+    
+        </div>
 
+    </section>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
