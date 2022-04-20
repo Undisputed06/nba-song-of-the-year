@@ -24,14 +24,11 @@ const options = {
 playerSearchBtn.addEventListener("click", function(){
     // console.dir(playerInputEl)
     let playerName = playerInputEl.value
-    if(playerName === "" || playerName === " ") {
-        alert("Please enter a valid name!")
-    }
-    else{
+    
     // anchorEl.setAttribute("href", "./stats.html" + playerName)
     savedSearches(playerName)
     getPlayerID(playerName)
-    }
+    
 })
 
 
@@ -42,7 +39,8 @@ var getPlayerID = function (player) {
         if(response.ok) {
             response.json().then(function(data){
                 console.log(data)
-                        sectionContainerEl.classList.remove("hidden")
+                    // Remove class hidden from the container
+                    sectionContainerEl.classList.remove("hidden")
 
                     playerFirstName = data.data[0].first_name
                     playerLastName = data.data[0].last_name
