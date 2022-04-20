@@ -9,6 +9,7 @@ const sectionContainerEl = document.querySelector(".section-container")
 const modalEl = document.querySelector(".modal")
 const modalContainerEl = document.querySelector(".modal-container")
 let modalCloseEl = document.querySelector(".modal-close")
+let appendMeContainerEl = document.querySelector(".append-me")
 
 
        
@@ -23,9 +24,14 @@ const options = {
 playerSearchBtn.addEventListener("click", function(){
     // console.dir(playerInputEl)
     let playerName = playerInputEl.value
+    if(playerName === "" || playerName === " ") {
+        alert("Please enter a valid name!")
+    }
+    else{
     // anchorEl.setAttribute("href", "./stats.html" + playerName)
-  
+    savedSearches(playerName)
     getPlayerID(playerName)
+    }
 })
 
 
@@ -36,7 +42,8 @@ var getPlayerID = function (player) {
         if(response.ok) {
             response.json().then(function(data){
                 console.log(data)
-        
+                        sectionContainerEl.classList.remove("hidden")
+
                     playerFirstName = data.data[0].first_name
                     playerLastName = data.data[0].last_name
                     playerNameEl.innerHTML = playerFirstName + " " + playerLastName
@@ -62,7 +69,7 @@ var getPlayerDraftYear = function(player, firstname) {
 fetch(`https://api-nba-v1.p.rapidapi.com/players?name=${player}`, options)
     .then(function(response){
         response.json().then(function(data){
-            for (let i =0; i <data.response.length; i++){
+            for (let i = 0; i < data.response.length; i++){
                 if (data.response[i].firstname == firstname) {
                     playerDraftYear = data.response[i].nba.start
                     playerJerseyNumber = data.response[i].leagues.standard.jersey
@@ -72,7 +79,7 @@ fetch(`https://api-nba-v1.p.rapidapi.com/players?name=${player}`, options)
                     draftYearEl.innerHTML = "DRAFT YEAR: " + playerDraftYear
 
                     // Run YouTube function
-                    fetchTheApi(playerDraftYear)
+                    // fetchTheApi(playerDraftYear)
 
                 }
             }
@@ -99,38 +106,83 @@ const videoContainer = document.querySelector(".video-container")
 
 
 
-let fetchTheApi = function(userYear) {
-    let apiUrl = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=most popular songs of' + userYear + '&key=AIzaSyDlhGHiQ4BazcwFF_5FyT8TAp5fA9t78RE'
+// let fetchTheApi = function(userYear) {
+//     let apiUrl = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=most popular songs of' + userYear + '&key=AIzaSyDlhGHiQ4BazcwFF_5FyT8TAp5fA9t78RE'
 
-    fetch(apiUrl).then(function(response) {
-        if(response.ok) {
-            response.json().then(function(data) {
-                console.log(data)
-                // Run the YouTube embed function with the data as an argument
-                createYouTubeContent(data)
-            })
-        }
+//     fetch(apiUrl).then(function(response) {
+//         if(response.ok) {
+//             response.json().then(function(data) {
+//                 console.log(data)
+//                 // Run the YouTube embed function with the data as an argument
+//                 createYouTubeContent(data)
+//             })
+//         }
+//         else {
+//             alert("yaya")
+//         }
+//     })
+// }
+
+// let createYouTubeContent = function(yaya) {
+
+//     for (let i = 0; i < yaya.items.length; i++) {
+//         // Create title for the container
+//         youtubeVideoTitle.innerHTML = yaya.items[i].snippet.title
+//         // Append Title to container
+//         videoContainer.appendChild(youtubeVideoTitle)
+
+//         // Give the iframe a correct link
+//         videoIframe.setAttribute("src", 'https://www.youtube.com/embed/' + yaya.items[i].id.videoId)
+//         // Append iframe to the container
+//         videoContainer.appendChild(videoIframe)
+//     }
+// }
+
+let playersInLocalStorage = JSON.parse(localStorage.getItem('player')) || []
+console.log(playersInLocalStorage)
+
+let savedSearches = function(player) {
+    let previousSearchButton = document.createElement("button")
+    previousSearchButton.classList.add("saved-search", "is-success", "button", "mr-2", "mt-2")
+    previousSearchButton.textContent = player
+
+    playersInLocalStorage.push(player)
+    localStorage.setItem("player", JSON.stringify(playersInLocalStorage));
+    appendMeContainerEl.appendChild(previousSearchButton)
+
+    $(".saved-search").on("click", function() {
+        let selectedPreviousSearch = $(this).text().trim()
+        getPlayerID(selectedPreviousSearch)
     })
+    
 }
 
-let createYouTubeContent = function(yaya) {
-    sectionContainerEl.classList.remove("hidden")
+let loadUserInput = function() {
+    var searchedPlayers = JSON.parse(localStorage.getItem("player") || "[]");
+        // for (var i = 0; i < searchedCities.length; i++){
+        //     $(`#${searchedCities[i]}`).val()
+        // }
+        for( let j = 0; j < searchedPlayers.length; j++) {
+            let previousSearchButton = document.createElement("button")
+            previousSearchButton.textContent = searchedPlayers[j]
+            previousSearchButton.classList.add("saved-search",  "is-success", "button", "mr-2", "mt-2")    
+            appendMeContainerEl.appendChild(previousSearchButton)
+            
+            
 
-    for (let i = 0; i < yaya.items.length; i++) {
-        // Create title for the container
-        youtubeVideoTitle.innerHTML = yaya.items[i].snippet.title
-        // Append Title to container
-        videoContainer.appendChild(youtubeVideoTitle)
+        }
+    $(".saved-search").on("click", function() {
+        let selectedPreviousSearch = $(this).text().trim()
+        getPlayerID(selectedPreviousSearch)
+    })
 
-        // Give the iframe a correct link
-        videoIframe.setAttribute("src", 'https://www.youtube.com/embed/' + yaya.items[i].id.videoId)
-        // Append iframe to the container
-        videoContainer.appendChild(videoIframe)
-    }
 }
+
 
 
 
 modalCloseEl.addEventListener("click", function() {
     modalEl.classList.remove("is-active")
 })
+
+loadUserInput()
