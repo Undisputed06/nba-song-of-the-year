@@ -23,11 +23,18 @@ const options = {
 
 playerSearchBtn.addEventListener("click", function(){
     // console.dir(playerInputEl)
-    let playerName = playerInputEl.value
     
-    // anchorEl.setAttribute("href", "./stats.html" + playerName)
-    savedSearches(playerName)
-    getPlayerID(playerName)
+    let playerName = playerInputEl.value
+
+    if(playerName === "" || playerName === " " || playerName === null) {
+        modalEl.classList.add("is-active")
+        
+    }
+    else {
+        // anchorEl.setAttribute("href", "./stats.html" + playerName)
+        getPlayerID(playerName)
+        savedSearches(playerName)
+    }
     
 })
 
@@ -49,6 +56,7 @@ var getPlayerID = function (player) {
                     playerFirstName = data.data[0].first_name
                     playerLastName = data.data[0].last_name
                     playerNameEl.innerHTML = playerFirstName + " " + playerLastName
+
                     console.log(playerLastName)
                     console.log(playerFirstName)
                     // playerID = data.data[0].id 
