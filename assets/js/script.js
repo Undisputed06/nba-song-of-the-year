@@ -79,7 +79,7 @@ fetch(`https://api-nba-v1.p.rapidapi.com/players?name=${player}`, options)
                     draftYearEl.innerHTML = "DRAFT YEAR: " + playerDraftYear
 
                     // Run YouTube function
-                    // fetchTheApi(playerDraftYear)
+                    fetchTheApi(playerDraftYear)
 
                 }
             }
@@ -106,37 +106,35 @@ const videoContainer = document.querySelector(".video-container")
 
 
 
-// let fetchTheApi = function(userYear) {
-//     let apiUrl = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=most popular songs of' + userYear + '&key=AIzaSyDlhGHiQ4BazcwFF_5FyT8TAp5fA9t78RE'
+let fetchTheApi = function(userYear) {
+    let apiUrl = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=most popular songs of' + userYear + '&key=AIzaSyDlhGHiQ4BazcwFF_5FyT8TAp5fA9t78RE'
 
-//     fetch(apiUrl).then(function(response) {
-//         if(response.ok) {
-//             response.json().then(function(data) {
-//                 console.log(data)
-//                 // Run the YouTube embed function with the data as an argument
-//                 createYouTubeContent(data)
-//             })
-//         }
-//         else {
-//             alert("yaya")
-//         }
-//     })
-// }
+    fetch(apiUrl).then(function(response) {
+        if(response.ok) {
+            response.json().then(function(data) {
+                console.log(data)
+                // Run the YouTube embed function with the data as an argument
+                createYouTubeContent(data)
+            })
+        }
+        
+    })
+}
 
-// let createYouTubeContent = function(yaya) {
+let createYouTubeContent = function(yaya) {
 
-//     for (let i = 0; i < yaya.items.length; i++) {
-//         // Create title for the container
-//         youtubeVideoTitle.innerHTML = yaya.items[i].snippet.title
-//         // Append Title to container
-//         videoContainer.appendChild(youtubeVideoTitle)
+    for (let i = 0; i < yaya.items.length; i++) {
+        // Create title for the container
+        youtubeVideoTitle.innerHTML = yaya.items[i].snippet.title
+        // Append Title to container
+        videoContainer.appendChild(youtubeVideoTitle)
 
-//         // Give the iframe a correct link
-//         videoIframe.setAttribute("src", 'https://www.youtube.com/embed/' + yaya.items[i].id.videoId)
-//         // Append iframe to the container
-//         videoContainer.appendChild(videoIframe)
-//     }
-// }
+        // Give the iframe a correct link
+        videoIframe.setAttribute("src", 'https://www.youtube.com/embed/' + yaya.items[i].id.videoId)
+        // Append iframe to the container
+        videoContainer.appendChild(videoIframe)
+    }
+}
 
 let playersInLocalStorage = JSON.parse(localStorage.getItem('player')) || []
 console.log(playersInLocalStorage)
