@@ -23,3 +23,24 @@ body {
     font-size: 7rem;
     text-align: center;
 }
+
+@media screen and (max-width: 980px) {
+  .video-iframe {
+    width: 600px;
+    height: 337px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .video-iframe {
+    width: 400px;
+    height: 225px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .video-iframe {
+    width: 300px;
+    height: 168px;
+  }
+}
