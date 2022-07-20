@@ -15,38 +15,39 @@
     <section
       class="hero-body is-flex is-justify-content-center has-background-danger"
     >
-      <div class="append-me">
+      <div
+        class="append-me has-text-centered is-flex is-flex-direction-column is-align-content-center is-justify-content-center"
+      >
         <h1 class="title is-1">Enter an NBA player's name</h1>
         <input
           id="player-input"
           type="text"
           placeholder="i.e. Kevin Durant"
-          class="input is-medium"
+          class="input is-medium mb-2"
         />
-        <a class="stats"
-          ><button id="submit-button" class="button is-link is-medium">
-            Submit
-          </button></a
-        >
+        <button id="submit-button" class="button is-link is-medium">
+          Submit
+        </button>
       </div>
     </section>
-    <section class="section-container hero-body hidden">
-      <div class="is-flex is-justify-content-center has-background-link column">
-        <div class="has-text-dark">
-          <h2 id="player-name" class="title is-2"></h2>
-          <!-- <ul>
-            <li class="has-text-weight-bold" id="draft-year"></li>
-            <li class="has-text-weight-bold" id="jersey"></li>
-            <li class="has-text-weight-bold" id="team"></li>
-          </ul> -->
-          <h4 class="title is-4" id="draft-year"></h4>
-          <h4 class="title is-4" id="jersey"></h4>
-          <h4 class="title is-4" id="team"></h4>
+    <section class="section-container p-0 hero hidden">
+      <div
+        class="has-text-centered is-flex is-justify-content-center has-background-link column"
+      >
+        <div class="has-text-light">
+          <h2 id="player-name" class="title is-2 has-text-light"></h2>
+          <div class="stats-container">
+            <h4 class="title is-4 has-text-light mb-1" id="draft-year"></h4>
+            <h4 class="title is-4 has-text-light mb-1" id="jersey"></h4>
+            <h4 class="title is-4 has-text-light mb-1" id="team"></h4>
+          </div>
         </div>
       </div>
-      <div class="is-flex is-justify-content-center has-background-danger column">
-        <div class="video-container">
-          <h2 id="song" class="title is-2"></h2>
+      <div class="is-flex is-justify-content-center has-background-link column">
+        <div
+          class="has-background-danger video-container mb-4 is-flex is-align-items-center is-justify-content-center"
+        >
+          <h2 id="song" class="title is-2 mb-1"></h2>
           <iframe
             class="video-iframe"
             width="854"
@@ -55,7 +56,6 @@
             allowfullscreen
           ></iframe>
         </div>
-
       </div>
     </section>
 

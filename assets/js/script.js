@@ -63,7 +63,7 @@ var getPlayerID = function (player) {
                     // console.log(playerID)
                     team = data.data[0].team.full_name
                     console.log(team)
-                    teamEl.innerHTML= "TEAM: " + team
+                    teamEl.innerHTML= "Team: " + team
                     
                     getPlayerDraftYear(playerLastName, playerFirstName)
                 }
@@ -89,8 +89,8 @@ fetch(`https://api-nba-v1.p.rapidapi.com/players?name=${player}`, options)
                     playerJerseyNumber = data.response[i].leagues.standard.jersey
                     console.log(playerDraftYear)
                     console.log(playerJerseyNumber)
-                    jerseyEl.innerHTML= "JERSEY #: " + playerJerseyNumber
-                    draftYearEl.innerHTML = "DRAFT YEAR: " + playerDraftYear
+                    jerseyEl.innerHTML= "Jersey #: " + playerJerseyNumber
+                    draftYearEl.innerHTML = "Draft Year: " + playerDraftYear
 
                     // Run YouTube function
                     fetchTheApi(playerDraftYear)
@@ -154,26 +154,31 @@ let playersInLocalStorage = JSON.parse(localStorage.getItem('player')) || []
 console.log(playersInLocalStorage)
 
 let savedSearches = function(player) {
-    let previousSearchButton = document.createElement("button")
-    previousSearchButton.classList.add("saved-search", "is-success", "button", "mr-2", "mt-2")
-    previousSearchButton.textContent = player
-
-    playersInLocalStorage.push(player)
-    localStorage.setItem("player", JSON.stringify(playersInLocalStorage));
-    appendMeContainerEl.appendChild(previousSearchButton)
-
-    $(".saved-search").on("click", function() {
-        let selectedPreviousSearch = $(this).text().trim()
-        getPlayerID(selectedPreviousSearch)
-    })
+        let previousSearchButton = document.createElement("button")
+        previousSearchButton.classList.add("saved-search", "is-success", "button", "mr-2", "mt-2")
+        previousSearchButton.textContent = player
     
+        playersInLocalStorage.push(player)
+        localStorage.setItem("player", JSON.stringify(playersInLocalStorage));
+        appendMeContainerEl.appendChild(previousSearchButton)
+    
+        $(".saved-search").on("click", function() {
+            let selectedPreviousSearch = $(this).text().trim()
+            getPlayerID(selectedPreviousSearch)
+        })
 }
 
 let loadUserInput = function() {
     var searchedPlayers = JSON.parse(localStorage.getItem("player") || "[]");
-        // for (var i = 0; i < searchedCities.length; i++){
-        //     $(`#${searchedCities[i]}`).val()
-        // }
+    
+    if(searchedPlayers.length === 0) {
+        return
+    }
+    else {
+        const searchAlert = document.createElement('p')
+        searchAlert.classList.add('search-alert')
+        searchAlert.textContent = "Your previous searches:"
+        appendMeContainerEl.appendChild(searchAlert)
         for( let j = 0; j < searchedPlayers.length; j++) {
             let previousSearchButton = document.createElement("button")
             previousSearchButton.textContent = searchedPlayers[j]
@@ -183,10 +188,12 @@ let loadUserInput = function() {
             
 
         }
-    $(".saved-search").on("click", function() {
-        let selectedPreviousSearch = $(this).text().trim()
-        getPlayerID(selectedPreviousSearch)
-    })
+        $(".saved-search").on("click", function() {
+            let selectedPreviousSearch = $(this).text().trim()
+            getPlayerID(selectedPreviousSearch)
+        })
+    }
+   
 
 }
 

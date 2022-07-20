@@ -24,6 +24,26 @@ body {
     text-align: center;
 }
 
+#song {
+  color: white;
+}
+
+.video-container {
+  padding: 2rem;
+  border-radius: 40px;
+  border: 2px solid rgb(236, 242, 243);
+  box-shadow: 0 0 2px 1px rgb(236, 242, 243);
+}
+
+.search-alert {
+  font-size: 1.2rem;
+  text-align: center;
+  color: white;
+  margin-top: .5rem;
+}
+
+
+
 @media screen and (max-width: 980px) {
   .video-iframe {
     width: 600px;
